@@ -58,3 +58,9 @@ Required in `.env`:
 - Agent instructions should be specific and actionable
 - Tool functions require proper docstrings with Args/Returns documentation
 - MCP tools require external binaries (e.g., `uvx mcp-atlassian`)
+
+## Git Commit Guidelines
+
+- Do NOT add Claude Code attribution or co-author lines to commit messages
+- Keep commit messages focused on the actual changes made
+- Use standard git commit message format without automated signatures
