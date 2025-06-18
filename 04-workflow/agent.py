@@ -1,13 +1,10 @@
-import re
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 from google.adk.agents import Agent
-from google.adk.tools import tool
 from dotenv import load_dotenv
 
 load_dotenv()
 
-@tool
 def create_task(title: str, description: str = "", priority: str = "medium") -> Dict[str, Any]:
     """
     Creates a new task in the workflow system
@@ -32,7 +29,6 @@ def create_task(title: str, description: str = "", priority: str = "medium") -> 
     }
     return task
 
-@tool
 def update_task_status(task_id: str, status: str) -> Dict[str, Any]:
     """
     Updates the status of an existing task
@@ -56,7 +52,6 @@ def update_task_status(task_id: str, status: str) -> Dict[str, Any]:
     }
     return updated_task
 
-@tool
 def create_workflow(name: str, tasks: List[str], description: str = "") -> Dict[str, Any]:
     """
     Creates a workflow with multiple interconnected tasks
@@ -91,7 +86,6 @@ def create_workflow(name: str, tasks: List[str], description: str = "") -> Dict[
     }
     return workflow
 
-@tool
 def get_workflow_status(workflow_id: str) -> Dict[str, Any]:
     """
     Gets the current status of a workflow and its tasks
@@ -109,7 +103,6 @@ def get_workflow_status(workflow_id: str) -> Dict[str, Any]:
         "note": "This is a simulated status check - in production this would query actual workflow data"
     }
 
-@tool
 def parse_markdown_manual(markdown_content: str) -> Dict[str, Any]:
     """
     Parses a markdown process manual and extracts teams, roles, tasks, and requirements
@@ -200,7 +193,6 @@ def parse_markdown_manual(markdown_content: str) -> Dict[str, Any]:
         
     return parsed_manual
 
-@tool
 def plan_workflow_from_manual(parsed_manual: Dict[str, Any]) -> Dict[str, Any]:
     """
     Creates a workflow plan from a parsed manual structure
@@ -246,7 +238,6 @@ def plan_workflow_from_manual(parsed_manual: Dict[str, Any]) -> Dict[str, Any]:
         
     return workflow_plan
 
-@tool
 def generate_specialized_agents(workflow_plan: Dict[str, Any], parsed_manual: Dict[str, Any]) -> Dict[str, Any]:
     """
     Generates specialized agents for each team/role in the workflow
@@ -326,8 +317,7 @@ def generate_specialized_agents(workflow_plan: Dict[str, Any], parsed_manual: Di
             
     return generated_agents
 
-@tool
-def match_tools_to_agents(generated_agents: Dict[str, Any], available_tools: List[str] = None) -> Dict[str, Any]:
+def match_tools_to_agents(generated_agents: Dict[str, Any], available_tools: Optional[List[str]] = None) -> Dict[str, Any]:
     """
     Matches available tools to agent requirements and suggests missing tools
     
@@ -379,7 +369,7 @@ def match_tools_to_agents(generated_agents: Dict[str, Any], available_tools: Lis
     for missing_tool in tool_matching["missing_tools"]:
         recommendation = {
             "tool_name": missing_tool,
-            "suggested_implementation": f"@tool function for {missing_tool}",
+            "suggested_implementation": f"function for {missing_tool}",
             "priority": "high" if missing_tool in ["email", "database", "api"] else "medium"
         }
         tool_matching["tool_recommendations"].append(recommendation)
